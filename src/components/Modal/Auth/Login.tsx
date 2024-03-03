@@ -6,16 +6,11 @@ import { useRecoilState } from 'recoil'
 type LoginProps = {}
 
 const Login: React.FC<LoginProps> = () => {
-  const [authModalStateValue, setAuthModalState] =
-    useRecoilState(authModalState)
-
+ const [authModalStateValue, setAuthModalState] = useRecoilState(authModalState)
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: '',
   })
-
-  // Firebase logic
-
   const onSubmit = () => {}
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,11 +75,10 @@ const Login: React.FC<LoginProps> = () => {
           color='blue.500'
           fontWeight={700}
           cursor='pointer'
-          onClick={() => {
-            setAuthModalState((prev) => ({
-              ...prev,
-              view: 'signup',
-            }))
+          onClick={()=>{
+           setAuthModalState(prev =>({
+            ...prev, view:"signup"
+           }))
           }}>
           Sign Up
         </Text>
