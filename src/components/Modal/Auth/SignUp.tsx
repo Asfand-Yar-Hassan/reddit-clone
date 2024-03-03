@@ -1,17 +1,16 @@
-import { authModalState } from '../../../atoms/authModalAtom'
-import { Button, Flex, Input, Text } from '@chakra-ui/react'
+import { authModalState } from '@/src/atoms/authModalAtom'
+import { Input, Button, Flex, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useRecoilState } from 'recoil'
 
-type LoginProps = {}
-
-const Login: React.FC<LoginProps> = () => {
+const SignUp: React.FC = () => {
   const [authModalStateValue, setAuthModalState] =
     useRecoilState(authModalState)
 
-  const [loginForm, setLoginForm] = useState({
+  const [signUpForm, setSignUpForm] = useState({
     email: '',
     password: '',
+    confirmPassword: '',
   })
 
   // Firebase logic
@@ -19,7 +18,7 @@ const Login: React.FC<LoginProps> = () => {
   const onSubmit = () => {}
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLoginForm((prev) => ({
+    setSignUpForm((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
     }))
@@ -71,11 +70,33 @@ const Login: React.FC<LoginProps> = () => {
         }}
         bg='gray.50'
       />
+      <Input
+        required
+        name='confirmPassword'
+        placeholder='confirm password'
+        type='password'
+        mb={2}
+        onChange={onChange}
+        fontSize='10pt'
+        _placeholder={{ color: 'gray.500' }}
+        _hover={{
+          bg: 'white',
+          border: '1px solid',
+          borderColor: 'blue.500',
+        }}
+        _focus={{
+          outline: 'none',
+          bg: 'white',
+          border: '1px solid',
+          borderColor: 'blue.500',
+        }}
+        bg='gray.50'
+      />
       <Button type='submit' width='100%' height='36px' mt={2} mb={2}>
-        Log In
+        Sign Up
       </Button>
       <Flex fontSize='9pt' justify='center'>
-        <Text mr={1}>New here?</Text>
+        <Text mr={1}>Already a redditor?</Text>
         <Text
           color='blue.500'
           fontWeight={700}
@@ -83,13 +104,13 @@ const Login: React.FC<LoginProps> = () => {
           onClick={() => {
             setAuthModalState((prev) => ({
               ...prev,
-              view: 'signup',
+              view: 'login',
             }))
           }}>
-          Sign Up
+          Log In
         </Text>
       </Flex>
     </form>
   )
 }
-export default Login
+export default SignUp
