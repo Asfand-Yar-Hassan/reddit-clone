@@ -1,17 +1,29 @@
+import { auth } from '@/src/firebase/clientApp'
 import { authModalState } from '../../../atoms/authModalAtom'
 import { Button, Flex, Input, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { useRecoilState } from 'recoil'
+import { FIREBASE_ERRORS } from '@/src/firebase/errors'
 
 type LoginProps = {}
 
 const Login: React.FC<LoginProps> = () => {
- const [authModalStateValue, setAuthModalState] = useRecoilState(authModalState)
+  const [authModalStateValue, setAuthModalState] =
+    useRecoilState(authModalState)
+
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: '',
   })
-  const onSubmit = () => {}
+
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth)
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    signInWithEmailAndPassword(loginForm.email, loginForm.password)
+  }
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginForm((prev) => ({
@@ -66,7 +78,10 @@ const Login: React.FC<LoginProps> = () => {
         }}
         bg='gray.50'
       />
-      <Button type='submit' width='100%' height='36px' mt={2} mb={2}>
+      <Text textAlign='center' color='red' fontSize='10pt'>
+        {FIREBASE_ERRORS[error?.message as keyof typeof FIREBASE_ERRORS]}
+      </Text>
+      <Button type='submit' width='100%' height='36px' mt={2} mb={2} isLoading={loading}>
         Log In
       </Button>
       <Flex fontSize='9pt' justify='center'>
@@ -75,10 +90,11 @@ const Login: React.FC<LoginProps> = () => {
           color='blue.500'
           fontWeight={700}
           cursor='pointer'
-          onClick={()=>{
-           setAuthModalState(prev =>({
-            ...prev, view:"signup"
-           }))
+          onClick={() => {
+            setAuthModalState((prev) => ({
+              ...prev,
+              view: 'signup',
+            }))
           }}>
           Sign Up
         </Text>
