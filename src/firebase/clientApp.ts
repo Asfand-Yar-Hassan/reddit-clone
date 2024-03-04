@@ -14,7 +14,6 @@ const firebaseConfig = {
   appId: "process.env.NEXT_PUBLIC_FIREBASE_APP_ID",
 }
 
-console.log(firebaseConfig)
 
 // Initialize Firebase for server side rendering
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
