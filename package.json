@@ -14,7 +14,6 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@fontsource/open-sans": "^5.0.24",
-    "@vercel/speed-insights": "^1.0.10",
     "dotenv": "^16.4.5",
     "firebase": "^10.8.1",
     "framer-motion": "^11.0.8",
