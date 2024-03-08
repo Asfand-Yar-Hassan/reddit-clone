@@ -1,4 +1,4 @@
-import { firestore } from '@/src/firebase/clientApp'
+import { auth, firestore } from '@/src/firebase/clientApp'
 import {
   Box,
   Button,
@@ -19,16 +19,13 @@ import {
 } from '@chakra-ui/react'
 import {
   doc,
-  getDoc,
   runTransaction,
-  serverTimestamp,
-  setDoc,
+  serverTimestamp
 } from 'firebase/firestore'
 import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { BsFillEyeFill, BsFillPersonFill } from 'react-icons/bs'
 import { HiLockClosed } from 'react-icons/hi2'
-import { auth } from '@/src/firebase/clientApp'
 
 type CreateCommunityModalProps = {
   open: boolean
