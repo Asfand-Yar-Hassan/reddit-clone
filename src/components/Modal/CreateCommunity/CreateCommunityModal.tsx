@@ -17,7 +17,13 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
+import {
+  doc,
+  getDoc,
+  runTransaction,
+  serverTimestamp,
+  setDoc,
+} from 'firebase/firestore'
 import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { BsFillEyeFill, BsFillPersonFill } from 'react-icons/bs'
@@ -54,40 +60,47 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
   }
 
   const handleCreateCommunity = async () => {
-    if(error) setError("")
+    if (error) setError('')
     //validate community name
     const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
     if (format.test(communityName) || communityName.length < 3) {
       setError(
         'Community name should be between 3 and 21 characters, and can only contain letters, numbers and underscores'
       )
-      return
     }
     setLoading(true)
 
     try {
       //create community document in firestore
       const communityDocRef = doc(firestore, 'communities', communityName)
-      const communityDoc = await getDoc(communityDocRef)
 
-      if (communityDoc.exists()) {
-        throw new Error(`Sorry, r/${communityName} is already taken. Try another name`)
-        
-        return
-      }
+      await runTransaction(firestore, async (transaction) => {
+        const communityDoc = await transaction.get(communityDocRef)
+        if (communityDoc.exists()) {
+          throw new Error(
+            `Sorry, r/${communityName} is already taken. Try another name`
+          )
+        }
 
-      //create a document for community
-      await setDoc(communityDocRef, {
-        creatorId: user?.uid,
-        createdAt: serverTimestamp(),
-        numberOfMembers: 1,
-        privacyType: communityType,
+        //create a document for community
+        transaction.set(communityDocRef, {
+          creatorId: user?.uid,
+          createdAt: serverTimestamp(),
+          numberOfMembers: 1,
+          privacyType: communityType,
+        })
+
+        //create communitySnippet
+        transaction.set(
+          doc(firestore, `users/${user?.uid}/communitySnippets`, communityName),
+          { communityId: communityName, isModerator: true }
+        )
       })
-      setLoading(false)
     } catch (error: any) {
       console.log('handleCreateCommunity error', error)
       setError(error.message)
     }
+    setLoading(false)
   }
 
   return (
@@ -196,7 +209,12 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
               onClick={handleClose}>
               Cancel
             </Button>
-            <Button height='30px' isLoading = {loading} onClick={() => {handleCreateCommunity()}}>
+            <Button
+              height='30px'
+              isLoading={loading}
+              onClick={() => {
+                handleCreateCommunity()
+              }}>
               Create Community
             </Button>
           </ModalFooter>
