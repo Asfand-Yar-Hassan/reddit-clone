@@ -7,7 +7,6 @@ import { IoImageOutline } from 'react-icons/io5'
 
 const CreatePostLink: React.FC = () => {
    const router = useRouter()
-   // const { toggleMenuOpen } = useDirectory()
    const onClick = () => {
      // Could check for user to open auth modal before redirecting to submit
      const { community } = router.query
@@ -15,8 +14,6 @@ const CreatePostLink: React.FC = () => {
        router.push(`/r/${router.query.community}/submit`)
        return
      }
-     // Open directory menu to select community to post to
-     // toggleMenuOpen()
    }
    return (
      <Flex
