@@ -8,16 +8,11 @@ type PageContentProps = {
 const PageContent: React.FC<PageContentProps> = ({ children }) => {
   return (
     // Parent container
-    <Flex border='1px solid red' justify='center' p='16px 0px'>
+    <Flex justify='center' p='16px 0px'>
       {/* Content container */}
-      <Flex
-        border='1px solid green'
-        width='95%'
-        justify='center'
-        maxWidth='860px'>
+      <Flex width='95%' justify='center' maxWidth='860px'>
         {/* Left Hand content container */}
         <Flex
-          border='1px solid blue'
           direction='column'
           width={{ base: '100%', md: '65%' }}
           mr={{ base: 0, md: 6 }}>
@@ -25,7 +20,6 @@ const PageContent: React.FC<PageContentProps> = ({ children }) => {
         </Flex>
         {/* Right hand content container */}
         <Flex
-          border='1px solid orange'
           direction='column'
           display={{ base: 'none', md: 'flex' }}
           flexGrow={1}>
