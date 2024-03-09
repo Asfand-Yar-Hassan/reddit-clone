@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import {
   Community,
   CommunitySnippet,
@@ -14,9 +14,11 @@ import {
   increment,
   writeBatch,
 } from 'firebase/firestore'
+import { authModalState } from '../atoms/authModalAtom'
 
 const useCommunityData = () => {
   const [user] = useAuthState(auth)
+  const setAuthModalState = useSetRecoilState(authModalState)
   const [loading, setLoading] = useState(false)
 
   const [communityStateValue, setCommunityStateValue] =
@@ -28,6 +30,10 @@ const useCommunityData = () => {
     communityData: Community,
     isJoined: boolean
   ) => {
+    if (!user) {
+      setAuthModalState({ open: true, view: 'login' })
+      return
+    }
     if (isJoined) {
       leaveCommunity(communityData.id)
       return
@@ -60,7 +66,7 @@ const useCommunityData = () => {
       const batch = writeBatch(firestore)
       const newSnippet: CommunitySnippet = {
         communityId: communityData.id,
-        imageURL: communityData.imageURL || "",
+        imageURL: communityData.imageURL || '',
       }
       batch.set(
         doc(
