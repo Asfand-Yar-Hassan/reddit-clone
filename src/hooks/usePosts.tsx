@@ -13,7 +13,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { authModalState } from '../atoms/authModalAtom'
 import { communityState } from '../atoms/communitiesAtom'
-import { Post, PostVote, postState } from '../atoms/posts'
+import { Post, PostVote, postState } from '../atoms/postsAtom'
 import { auth, firestore, storage } from '../firebase/clientApp'
 
 const usePosts = () => {

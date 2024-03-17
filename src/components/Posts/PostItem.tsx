@@ -1,4 +1,4 @@
-import { Post } from '@/src/atoms/posts'
+import { Post } from '@/src/atoms/postsAtom'
 import {
   Alert,
   AlertIcon,

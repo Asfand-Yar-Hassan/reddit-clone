@@ -1,5 +1,5 @@
 import { Community } from '@/src/atoms/communitiesAtom'
-import { Post } from '@/src/atoms/posts'
+import { Post } from '@/src/atoms/postsAtom'
 import { auth, firestore } from '@/src/firebase/clientApp'
 import usePosts from '@/src/hooks/usePosts'
 import { collection, getDocs, orderBy, query, where } from 'firebase/firestore'
