@@ -25,7 +25,13 @@ const usePosts = () => {
   const [authModalStateValue, setAuthModalState] =
     useRecoilState(authModalState)
 
-  const onVote = async (post: Post, vote: number, communityId: string) => {
+  const onVote = async (
+    event: React.MouseEvent<SVGElement, MouseEvent>,
+    post: Post,
+    vote: number,
+    communityId: string
+  ) => {
+    event.stopPropagation()
     if (!user?.uid) {
       setAuthModalState({ open: true, view: 'login' })
       return
@@ -90,11 +96,6 @@ const usePosts = () => {
         }
       }
 
-      const postRef = doc(firestore, 'posts', post.id!)
-      batch.update(postRef, { voteStatus: voteStatus + voteChange })
-
-      await batch.commit()
-
       const postIndex = postStateValue.posts.findIndex(
         (item) => item.id === post.id
       )
@@ -105,6 +106,18 @@ const usePosts = () => {
         posts: updatedPosts,
         postVotes: updatedPostVotes,
       }))
+
+      if (postStateValue.selectedPost) {
+        setPostStateValue((prev) => ({
+          ...prev,
+          selectedPost: updatedPost,
+        }))
+      }
+
+      const postRef = doc(firestore, 'posts', post.id!)
+      batch.update(postRef, { voteStatus: voteStatus + voteChange })
+
+      await batch.commit()
     } catch (error) {
       console.log('onVoteError', error)
     }
