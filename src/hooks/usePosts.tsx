@@ -15,10 +15,12 @@ import { authModalState } from '../atoms/authModalAtom'
 import { communityState } from '../atoms/communitiesAtom'
 import { Post, PostVote, postState } from '../atoms/postsAtom'
 import { auth, firestore, storage } from '../firebase/clientApp'
+import { useRouter } from 'next/router'
 
 const usePosts = () => {
   const [postStateValue, setPostStateValue] = useRecoilState(postState)
   const [user] = useAuthState(auth)
+  const router = useRouter()
   const currentCommunity = useRecoilValue(communityState).currentCommunity
   const [authModalStateValue, setAuthModalState] =
     useRecoilState(authModalState)
@@ -108,7 +110,13 @@ const usePosts = () => {
     }
   }
 
-  const onSelectPost = () => {}
+  const onSelectPost = (post: Post) => {
+    setPostStateValue((prev) => ({
+      ...prev,
+      selectedPost: post,
+    }))
+    router.push(`/r/${post.communityId}/comments/${post.id}`)
+  }
 
   const onDeletPost = async (post: Post): Promise<Boolean> => {
     try {
