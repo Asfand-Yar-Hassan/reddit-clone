@@ -1,20 +1,24 @@
 import { Post, postState } from '@/src/atoms/postsAtom'
 import { firestore } from '@/src/firebase/clientApp'
 import {
-  Text,
   Box,
   Flex,
   SkeletonCircle,
   SkeletonText,
   Stack,
+  Text,
 } from '@chakra-ui/react'
 import { User } from 'firebase/auth'
 import {
   Timestamp,
   collection,
   doc,
+  getDocs,
   increment,
+  orderBy,
+  query,
   serverTimestamp,
+  where,
   writeBatch,
 } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
@@ -35,7 +39,7 @@ const Comments: React.FC<CommentsProps> = ({
 }) => {
   const [commentText, setCommentText] = useState('')
   const [comments, setComments] = useState<Comment[]>([])
-  const [fetchLoading, setFetchLoading] = useState(false)
+  const [fetchLoading, setFetchLoading] = useState(true)
   const [createLoading, setCreateLoading] = useState(false)
   const setPostState = useSetRecoilState(postState)
 
@@ -81,15 +85,32 @@ const Comments: React.FC<CommentsProps> = ({
     }
     setCreateLoading(false)
   }
-  console.log('comments', comments)
 
   const onDeleteComment = async (comment: Comment) => {}
 
-  const getPostComments = async () => {}
+  const getPostComments = async () => {
+    try {
+      const commentsQuery = query(
+        collection(firestore, 'comments'),
+        where('postId', '==', selectedPost?.id!),
+        orderBy('createdAt', 'desc')
+      )
+      const commentDocs = await getDocs(commentsQuery)
+      const comments = commentDocs.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }))
+      setComments(comments as Comment[])
+    } catch (error) {
+      console.log('getPostComments error', error)
+    }
+    setFetchLoading(false)
+  }
 
   useEffect(() => {
+    if (!selectedPost) return
     getPostComments()
-  }, [])
+  }, [selectedPost])
 
   return (
     <Box bg={'white'} borderRadius={'0px 0px 4px 4px'} p={2}>
@@ -100,13 +121,15 @@ const Comments: React.FC<CommentsProps> = ({
         mb={6}
         fontSize={'10pt'}
         width={'100%'}>
-        <CommentInput
-          commentText={commentText}
-          setCommentText={setCommentText}
-          createLoading={createLoading}
-          user={user}
-          onCreateComment={onCreatecomment}
-        />
+        {!fetchLoading && (
+          <CommentInput
+            commentText={commentText}
+            setCommentText={setCommentText}
+            createLoading={createLoading}
+            user={user}
+            onCreateComment={onCreatecomment}
+          />
+        )}
       </Flex>
       <Stack spacing={6} p={2}>
         {fetchLoading ? (
