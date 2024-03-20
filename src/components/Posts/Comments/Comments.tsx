@@ -190,7 +190,7 @@ const Comments: React.FC<CommentsProps> = ({
                   <CommentItem
                     key={item.id}
                     comment={item}
-                    userId={user.uid}
+                    userId={user?.uid}
                     onDelete={onDeleteComment}
                     loadingDelete={deleteLoadingId === item.id}
                   />
