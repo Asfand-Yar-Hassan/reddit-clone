@@ -1,5 +1,5 @@
-import { Flex } from '@chakra-ui/react'
-import React, { ReactPropTypes } from 'react'
+import { Flex } from '@chakra-ui/react';
+import React, { ReactPropTypes } from 'react';
 
 type PageContentProps = {
   children: any
@@ -27,6 +27,6 @@ const PageContent: React.FC<PageContentProps> = ({ children }) => {
         </Flex>
       </Flex>
     </Flex>
-  )
-}
-export default PageContent
+  );
+};
+export default PageContent;

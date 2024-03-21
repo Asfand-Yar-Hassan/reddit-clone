@@ -1,42 +1,42 @@
-import { authModalState } from '@/src/atoms/authModalAtom'
-import { auth } from '@/src/firebase/clientApp'
-import { Input, Button, Flex, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
-import { useRecoilState } from 'recoil'
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
-import { FIREBASE_ERRORS } from '@/src/firebase/errors'
+import { authModalState } from '@/src/atoms/authModalAtom';
+import { auth } from '@/src/firebase/clientApp';
+import { Input, Button, Flex, Text } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { FIREBASE_ERRORS } from '@/src/firebase/errors';
 
 const SignUp: React.FC = () => {
   const [authModalStateValue, setAuthModalState] =
-    useRecoilState(authModalState)
+    useRecoilState(authModalState);
 
   const [signUpForm, setSignUpForm] = useState({
     email: '',
     password: '',
     confirmPassword: '',
-  })
+  });
 
-  const [error, setError] = useState('')
+  const [error, setError] = useState('');
 
   const [createUserWithEmailAndPassword, user, loading, userError] =
-    useCreateUserWithEmailAndPassword(auth) // Firebase logic
+    useCreateUserWithEmailAndPassword(auth); // Firebase logic
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    if (error) setError('')
+    event.preventDefault();
+    if (error) setError('');
     if (signUpForm.password !== signUpForm.confirmPassword) {
-      setError('Passwords do not match')
-      return
+      setError('Passwords do not match');
+      return;
     }
-    createUserWithEmailAndPassword(signUpForm.email, signUpForm.password)
-  }
+    createUserWithEmailAndPassword(signUpForm.email, signUpForm.password);
+  };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSignUpForm((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
-    }))
-  }
+    }));
+  };
 
   return (
     <form onSubmit={onSubmit}>
@@ -129,12 +129,12 @@ const SignUp: React.FC = () => {
             setAuthModalState((prev) => ({
               ...prev,
               view: 'login',
-            }))
+            }));
           }}>
           Log In
         </Text>
       </Flex>
     </form>
-  )
-}
-export default SignUp
+  );
+};
+export default SignUp;

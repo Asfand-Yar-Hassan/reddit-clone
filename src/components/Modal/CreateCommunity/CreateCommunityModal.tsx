@@ -1,4 +1,4 @@
-import { auth, firestore } from '@/src/firebase/clientApp'
+import { auth, firestore } from '@/src/firebase/clientApp';
 import {
   Box,
   Button,
@@ -16,16 +16,16 @@ import {
   ModalOverlay,
   Stack,
   Text,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 import {
   doc,
   runTransaction,
   serverTimestamp
-} from 'firebase/firestore'
-import React, { useState } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { BsFillEyeFill, BsFillPersonFill } from 'react-icons/bs'
-import { HiLockClosed } from 'react-icons/hi2'
+} from 'firebase/firestore';
+import React, { useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { BsFillEyeFill, BsFillPersonFill } from 'react-icons/bs';
+import { HiLockClosed } from 'react-icons/hi2';
 
 type CreateCommunityModalProps = {
   open: boolean
@@ -36,47 +36,47 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
   open,
   handleClose,
 }) => {
-  const [communityName, setCommunityName] = useState('')
-  const [charsRemaining, setCharsRemaining] = useState(21)
-  const [communityType, setCommunityType] = useState('public')
-  const [error, setError] = useState('')
-  const [user] = useAuthState(auth)
-  const [loading, setLoading] = useState(false)
+  const [communityName, setCommunityName] = useState('');
+  const [charsRemaining, setCharsRemaining] = useState(21);
+  const [communityType, setCommunityType] = useState('public');
+  const [error, setError] = useState('');
+  const [user] = useAuthState(auth);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value.length > 21) return
-    setCommunityName(event.target.value)
+    if (event.target.value.length > 21) return;
+    setCommunityName(event.target.value);
     //calculate the number of characters remaining
-    setCharsRemaining(21 - event.target.value.length)
-  }
+    setCharsRemaining(21 - event.target.value.length);
+  };
 
   const onCommunityTypeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setCommunityType(event.target.name)
-  }
+    setCommunityType(event.target.name);
+  };
 
   const handleCreateCommunity = async () => {
-    if (error) setError('')
+    if (error) setError('');
     //validate community name
-    const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+    const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (format.test(communityName) || communityName.length < 3) {
       setError(
         'Community name should be between 3 and 21 characters, and can only contain letters, numbers and underscores'
-      )
+      );
     }
-    setLoading(true)
+    setLoading(true);
 
     try {
       //create community document in firestore
-      const communityDocRef = doc(firestore, 'communities', communityName)
+      const communityDocRef = doc(firestore, 'communities', communityName);
 
       await runTransaction(firestore, async (transaction) => {
-        const communityDoc = await transaction.get(communityDocRef)
+        const communityDoc = await transaction.get(communityDocRef);
         if (communityDoc.exists()) {
           throw new Error(
             `Sorry, r/${communityName} is already taken. Try another name`
-          )
+          );
         }
 
         //create a document for community
@@ -85,20 +85,20 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
           createdAt: serverTimestamp(),
           numberOfMembers: 1,
           privacyType: communityType,
-        })
+        });
 
         //create communitySnippet
         transaction.set(
           doc(firestore, `users/${user?.uid}/communitySnippets`, communityName),
           { communityId: communityName, isModerator: true }
-        )
-      })
+        );
+      });
     } catch (error: any) {
-      console.log('handleCreateCommunity error', error)
-      setError(error.message)
+      console.log('handleCreateCommunity error', error);
+      setError(error.message);
     }
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   return (
     <>
@@ -210,7 +210,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
               height='30px'
               isLoading={loading}
               onClick={() => {
-                handleCreateCommunity()
+                handleCreateCommunity();
               }}>
               Create Community
             </Button>
@@ -218,6 +218,6 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
         </ModalContent>
       </Modal>
     </>
-  )
-}
-export default CreateCommunityModal
+  );
+};
+export default CreateCommunityModal;

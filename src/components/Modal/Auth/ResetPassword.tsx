@@ -1,25 +1,25 @@
 // Reset password modal
-import React, { useState } from 'react'
-import { Button, Flex, Icon, Input, Text } from '@chakra-ui/react'
-import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth'
-import { BsDot, BsReddit } from 'react-icons/bs'
-import { authModalState } from '../../../atoms/authModalAtom'
-import { auth } from '../../../firebase/clientApp'
-import { useSetRecoilState } from 'recoil'
+import React, { useState } from 'react';
+import { Button, Flex, Icon, Input, Text } from '@chakra-ui/react';
+import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
+import { BsDot, BsReddit } from 'react-icons/bs';
+import { authModalState } from '../../../atoms/authModalAtom';
+import { auth } from '../../../firebase/clientApp';
+import { useSetRecoilState } from 'recoil';
 
 const ResetPassword: React.FC = () => {
-  const setAuthModalState = useSetRecoilState(authModalState)
-  const [email, setEmail] = useState('')
-  const [success, setSuccess] = useState(false)
+  const setAuthModalState = useSetRecoilState(authModalState);
+  const [email, setEmail] = useState('');
+  const [success, setSuccess] = useState(false);
   const [sendPasswordResetEmail, sending, error] =
-    useSendPasswordResetEmail(auth)
+    useSendPasswordResetEmail(auth);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    await sendPasswordResetEmail(email)
-    setSuccess(true)
-  }
+    await sendPasswordResetEmail(email);
+    setSuccess(true);
+  };
   return (
     <Flex direction='column' alignItems='center' width='100%'>
       <Icon as={BsReddit} color='brand.100' fontSize={40} mb={2} />
@@ -99,6 +99,6 @@ const ResetPassword: React.FC = () => {
         </Text>
       </Flex>
     </Flex>
-  )
-}
-export default ResetPassword
+  );
+};
+export default ResetPassword;

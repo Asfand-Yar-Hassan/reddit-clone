@@ -1,5 +1,5 @@
-import { Post, postState } from '@/src/atoms/postsAtom'
-import { firestore } from '@/src/firebase/clientApp'
+import { Post, postState } from '@/src/atoms/postsAtom';
+import { firestore } from '@/src/firebase/clientApp';
 import {
   Box,
   Flex,
@@ -7,8 +7,8 @@ import {
   SkeletonText,
   Stack,
   Text,
-} from '@chakra-ui/react'
-import { User } from 'firebase/auth'
+} from '@chakra-ui/react';
+import { User } from 'firebase/auth';
 import {
   Timestamp,
   collection,
@@ -20,11 +20,11 @@ import {
   serverTimestamp,
   where,
   writeBatch,
-} from 'firebase/firestore'
-import React, { useEffect, useState } from 'react'
-import { useSetRecoilState } from 'recoil'
-import CommentInput from './CommentInput'
-import CommentItem, { Comment } from './CommentItem'
+} from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import CommentInput from './CommentInput';
+import CommentItem, { Comment } from './CommentItem';
 
 type CommentsProps = {
   user: User
@@ -37,18 +37,18 @@ const Comments: React.FC<CommentsProps> = ({
   selectedPost,
   communityId,
 }) => {
-  const [commentText, setCommentText] = useState('')
-  const [comments, setComments] = useState<Comment[]>([])
-  const [fetchLoading, setFetchLoading] = useState(true)
-  const [createLoading, setCreateLoading] = useState(false)
-  const [deleteLoadingId, setDeleteLoadingId] = useState('')
-  const setPostState = useSetRecoilState(postState)
+  const [commentText, setCommentText] = useState('');
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [fetchLoading, setFetchLoading] = useState(true);
+  const [createLoading, setCreateLoading] = useState(false);
+  const [deleteLoadingId, setDeleteLoadingId] = useState('');
+  const setPostState = useSetRecoilState(postState);
 
   const onCreatecomment = async () => {
-    setCreateLoading(true)
+    setCreateLoading(true);
     try {
-      const batch = writeBatch(firestore)
-      const commentDocRef = doc(collection(firestore, 'comments'))
+      const batch = writeBatch(firestore);
+      const commentDocRef = doc(collection(firestore, 'comments'));
 
       const newComment: Comment = {
         id: commentDocRef.id,
@@ -59,48 +59,48 @@ const Comments: React.FC<CommentsProps> = ({
         postTitle: selectedPost?.title!,
         text: commentText,
         createdAt: serverTimestamp() as Timestamp,
-      }
+      };
 
-      batch.set(commentDocRef, newComment)
+      batch.set(commentDocRef, newComment);
 
-      newComment.createdAt = { seconds: Date.now() / 1000 } as Timestamp
+      newComment.createdAt = { seconds: Date.now() / 1000 } as Timestamp;
 
-      const postDocRef = doc(firestore, 'posts', selectedPost?.id!)
+      const postDocRef = doc(firestore, 'posts', selectedPost?.id!);
       batch.update(postDocRef, {
         numberOfComments: increment(1),
-      })
+      });
 
-      await batch.commit()
+      await batch.commit();
 
-      setCommentText('')
-      setComments((prev) => [newComment, ...prev])
+      setCommentText('');
+      setComments((prev) => [newComment, ...prev]);
       setPostState((prev) => ({
         ...prev,
         selectedPost: {
           ...prev.selectedPost,
           numberOfComments: prev.selectedPost?.numberOfComments! + 1,
         } as Post,
-      }))
+      }));
     } catch (error) {
-      console.log('onCreateComment error', error)
+      console.log('onCreateComment error', error);
     }
-    setCreateLoading(false)
-  }
+    setCreateLoading(false);
+  };
 
   const onDeleteComment = async (comment: Comment) => {
-    setDeleteLoadingId(comment.id)
+    setDeleteLoadingId(comment.id);
     try {
-      const batch = writeBatch(firestore)
+      const batch = writeBatch(firestore);
 
-      const commentDocRef = doc(firestore, 'comments', comment.id)
-      batch.delete(commentDocRef)
+      const commentDocRef = doc(firestore, 'comments', comment.id);
+      batch.delete(commentDocRef);
 
-      const postDocRef = doc(firestore, 'posts', selectedPost?.id!)
+      const postDocRef = doc(firestore, 'posts', selectedPost?.id!);
       batch.update(postDocRef, {
         numberOfComments: increment(-1),
-      })
+      });
 
-      await batch.commit()
+      await batch.commit();
 
       setPostState((prev) => ({
         ...prev,
@@ -108,14 +108,14 @@ const Comments: React.FC<CommentsProps> = ({
           ...prev.selectedPost,
           numberOfComments: prev.selectedPost?.numberOfComments! - 1,
         } as Post,
-      }))
+      }));
 
-      setComments((prev) => prev.filter((item) => item.id !== comment.id))
+      setComments((prev) => prev.filter((item) => item.id !== comment.id));
     } catch (error) {
-      console.log('onDeleteComment error', error)
+      console.log('onDeleteComment error', error);
     }
-    setDeleteLoadingId('')
-  }
+    setDeleteLoadingId('');
+  };
 
   const getPostComments = async () => {
     try {
@@ -123,23 +123,23 @@ const Comments: React.FC<CommentsProps> = ({
         collection(firestore, 'comments'),
         where('postId', '==', selectedPost?.id!),
         orderBy('createdAt', 'desc')
-      )
-      const commentDocs = await getDocs(commentsQuery)
+      );
+      const commentDocs = await getDocs(commentsQuery);
       const comments = commentDocs.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-      }))
-      setComments(comments as Comment[])
+      }));
+      setComments(comments as Comment[]);
     } catch (error) {
-      console.log('getPostComments error', error)
+      console.log('getPostComments error', error);
     }
-    setFetchLoading(false)
-  }
+    setFetchLoading(false);
+  };
 
   useEffect(() => {
-    if (!selectedPost) return
-    getPostComments()
-  }, [selectedPost])
+    if (!selectedPost) return;
+    getPostComments();
+  }, [selectedPost]);
 
   return (
     <Box bg={'white'} borderRadius={'0px 0px 4px 4px'} p={2}>
@@ -201,6 +201,6 @@ const Comments: React.FC<CommentsProps> = ({
         )}
       </Stack>
     </Box>
-  )
-}
-export default Comments
+  );
+};
+export default Comments;

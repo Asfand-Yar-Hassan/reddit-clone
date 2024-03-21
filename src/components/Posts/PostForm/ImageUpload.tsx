@@ -1,5 +1,5 @@
-import { Button, Flex, Image, Stack } from '@chakra-ui/react'
-import React, { useRef } from 'react'
+import { Button, Flex, Image, Stack } from '@chakra-ui/react';
+import React, { useRef } from 'react';
 
 type ImageUploadProps = {
   selectedFile?: string
@@ -14,7 +14,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   setSelectedFile,
   setSelectedTab,
 }) => {
-  const selectedFileRef = useRef<HTMLInputElement>(null)
+  const selectedFileRef = useRef<HTMLInputElement>(null);
 
   return (
     <Flex direction='column' justify='center' align='center' width='100%'>
@@ -25,7 +25,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             <Button
               height='28px'
               onClick={() => {
-                setSelectedTab('Post')
+                setSelectedTab('Post');
               }}>
               Back To Post
             </Button>
@@ -61,6 +61,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         </Flex>
       )}
     </Flex>
-  )
-}
-export default ImageUpload
+  );
+};
+export default ImageUpload;

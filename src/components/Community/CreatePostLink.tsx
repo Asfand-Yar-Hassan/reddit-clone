@@ -1,33 +1,33 @@
-import { authModalState } from '@/src/atoms/authModalAtom'
-import { auth } from '@/src/firebase/clientApp'
-import useDirectory from '@/src/hooks/useDirectory'
-import { Flex, Icon, Input } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
-import React from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { BsLink45Deg } from 'react-icons/bs'
-import { FaReddit } from 'react-icons/fa'
-import { IoImageOutline } from 'react-icons/io5'
-import { useSetRecoilState } from 'recoil'
+import { authModalState } from '@/src/atoms/authModalAtom';
+import { auth } from '@/src/firebase/clientApp';
+import useDirectory from '@/src/hooks/useDirectory';
+import { Flex, Icon, Input } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { BsLink45Deg } from 'react-icons/bs';
+import { FaReddit } from 'react-icons/fa';
+import { IoImageOutline } from 'react-icons/io5';
+import { useSetRecoilState } from 'recoil';
 
 const CreatePostLink: React.FC = () => {
-  const router = useRouter()
-  const [user] = useAuthState(auth)
-  const setAuthModalState = useSetRecoilState(authModalState)
-  const { toggleMenuOpen } = useDirectory()
+  const router = useRouter();
+  const [user] = useAuthState(auth);
+  const setAuthModalState = useSetRecoilState(authModalState);
+  const { toggleMenuOpen } = useDirectory();
 
   const onClick = () => {
     if (!user) {
-      setAuthModalState({ open: true, view: 'login' })
-      return
+      setAuthModalState({ open: true, view: 'login' });
+      return;
     }
     // Could check for user to open auth modal before redirecting to submit
-    const { communityId } = router.query
+    const { communityId } = router.query;
     if (communityId) {
-      router.push(`/r/${router.query.communityId}/submit`)
+      router.push(`/r/${router.query.communityId}/submit`);
     }
-    toggleMenuOpen()
-  }
+    toggleMenuOpen();
+  };
   return (
     <Flex
       justify='space-evenly'
@@ -71,6 +71,6 @@ const CreatePostLink: React.FC = () => {
       />
       <Icon as={BsLink45Deg} fontSize={24} color='gray.400' cursor='pointer' />
     </Flex>
-  )
-}
-export default CreatePostLink
+  );
+};
+export default CreatePostLink;

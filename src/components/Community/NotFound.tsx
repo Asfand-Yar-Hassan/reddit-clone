@@ -1,4 +1,4 @@
-import { Button, Flex, Link } from '@chakra-ui/react'
+import { Button, Flex, Link } from '@chakra-ui/react';
 
 const CommunityNotFound: React.FC = () => {
   return (
@@ -12,6 +12,6 @@ const CommunityNotFound: React.FC = () => {
         <Button mt={4}>Go Home</Button>
       </Link>
     </Flex>
-  )
-}
-export default CommunityNotFound
+  );
+};
+export default CommunityNotFound;

@@ -1,12 +1,12 @@
-import { Box, Text, Flex, Icon, Stack, Spinner } from '@chakra-ui/react'
-import { Timestamp } from 'firebase/firestore'
-import moment from 'moment'
-import React from 'react'
-import { FaReddit } from 'react-icons/fa'
+import { Box, Text, Flex, Icon, Stack, Spinner } from '@chakra-ui/react';
+import { Timestamp } from 'firebase/firestore';
+import moment from 'moment';
+import React from 'react';
+import { FaReddit } from 'react-icons/fa';
 import {
   IoArrowDownCircleOutline,
   IoArrowUpCircleOutline,
-} from 'react-icons/io5'
+} from 'react-icons/io5';
 
 export type Comment = {
   id: string
@@ -65,6 +65,6 @@ const CommentItem: React.FC<CommentItemProps> = ({
         </Stack>
       </Stack>
     </Flex>
-  )
-}
-export default CommentItem
+  );
+};
+export default CommentItem;

@@ -1,6 +1,6 @@
-import React from 'react'
-import { TabItem } from './NewPostForm'
-import { Text, Flex, Icon } from '@chakra-ui/react'
+import React from 'react';
+import { TabItem } from './NewPostForm';
+import { Text, Flex, Icon } from '@chakra-ui/react';
 
 type FormTabProps = {
   item: TabItem
@@ -23,13 +23,13 @@ const FormTab: React.FC<FormTabProps> = ({ item, selected, setSelectedTab }) => 
       borderBottomColor={selected ? 'blue.500' : 'gray.200'}
       borderRightColor='gray.200'
       onClick={() => {
-        setSelectedTab(item.title)
+        setSelectedTab(item.title);
       }}>
       <Flex align='center' height='20px' mr={2}>
         <Icon as={item.icon} />
       </Flex>
       <Text fontSize='10pt'>{item.title}</Text>
     </Flex>
-  )
-}
-export default FormTab
+  );
+};
+export default FormTab;
