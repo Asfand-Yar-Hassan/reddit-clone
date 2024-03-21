@@ -1,7 +1,7 @@
-import { authModalState } from '@/src/atoms/authModalAtom'
-import { communityState } from '@/src/atoms/communitiesAtom'
-import { auth } from '@/src/firebase/clientApp'
-import { ChevronDownIcon } from '@chakra-ui/icons'
+import { authModalState } from '@/src/atoms/authModalAtom';
+import { communityState } from '@/src/atoms/communitiesAtom';
+import { auth } from '@/src/firebase/clientApp';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Flex,
   Icon,
@@ -11,15 +11,15 @@ import {
   MenuItem,
   MenuList,
   Text,
-} from '@chakra-ui/react'
-import { User, signOut } from 'firebase/auth'
-import React from 'react'
-import { CgProfile } from 'react-icons/cg'
-import { FaRedditSquare } from 'react-icons/fa'
-import { IoSparkles } from 'react-icons/io5'
-import { MdOutlineLogin } from 'react-icons/md'
-import { VscAccount } from 'react-icons/vsc'
-import { useRecoilState, useResetRecoilState } from 'recoil'
+} from '@chakra-ui/react';
+import { User, signOut } from 'firebase/auth';
+import React from 'react';
+import { CgProfile } from 'react-icons/cg';
+import { FaRedditSquare } from 'react-icons/fa';
+import { IoSparkles } from 'react-icons/io5';
+import { MdOutlineLogin } from 'react-icons/md';
+import { VscAccount } from 'react-icons/vsc';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 
 type MenuProps = {
   user?: User | null
@@ -27,11 +27,11 @@ type MenuProps = {
 
 const UserMenu: React.FC<MenuProps> = ({ user }) => {
   const [authModalStateValue, setAuthModalState] =
-    useRecoilState(authModalState)
+    useRecoilState(authModalState);
 
   const logout = async () => {
-    await signOut(auth)
-  }
+    await signOut(auth);
+  };
   return (
     <>
       <Menu>
@@ -90,7 +90,7 @@ const UserMenu: React.FC<MenuProps> = ({ user }) => {
                 fontWeight={700}
                 _hover={{ bg: 'blue.500', color: 'white' }}
                 onClick={() => {
-                  logout()
+                  logout();
                 }}>
                 <Flex align='center'>
                   <Icon as={MdOutlineLogin} fontSize={20} mr={2} />
@@ -108,7 +108,7 @@ const UserMenu: React.FC<MenuProps> = ({ user }) => {
                   setAuthModalState((prev) => ({
                     open: true,
                     view: 'login',
-                  }))
+                  }));
                 }}>
                 <Flex align='center'>
                   <Icon as={MdOutlineLogin} fontSize={20} mr={2} />
@@ -120,6 +120,6 @@ const UserMenu: React.FC<MenuProps> = ({ user }) => {
         </MenuList>
       </Menu>
     </>
-  )
-}
-export default UserMenu
+  );
+};
+export default UserMenu;

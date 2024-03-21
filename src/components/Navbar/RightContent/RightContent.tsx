@@ -21,6 +21,6 @@ const RightContent:React.FC<RightContentProps> = ({user}) => {
      </Flex>
      <UserMenu user={user}/>
    </>
- )
-}
+ );
+};
 export default RightContent;

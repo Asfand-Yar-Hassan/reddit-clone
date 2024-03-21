@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from '@chakra-ui/icons'
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Flex,
   Icon,
@@ -7,14 +7,14 @@ import {
   MenuList,
   Text,
   Image,
-} from '@chakra-ui/react'
-import React from 'react'
-import { TiHome } from 'react-icons/ti'
-import Communities from './Communities'
-import useDirectory from '@/src/hooks/useDirectory'
+} from '@chakra-ui/react';
+import React from 'react';
+import { TiHome } from 'react-icons/ti';
+import Communities from './Communities';
+import useDirectory from '@/src/hooks/useDirectory';
 
 const UserMenu: React.FC = () => {
-  const { directoryState, toggleMenuOpen } = useDirectory()
+  const { directoryState, toggleMenuOpen } = useDirectory();
 
   return (
     <Menu isOpen={directoryState.isOpen}>
@@ -60,6 +60,6 @@ const UserMenu: React.FC = () => {
         <Communities />
       </MenuList>
     </Menu>
-  )
-}
-export default UserMenu
+  );
+};
+export default UserMenu;

@@ -1,5 +1,5 @@
-import { Button, Flex, Input, Stack, Textarea } from '@chakra-ui/react'
-import React from 'react'
+import { Button, Flex, Input, Stack, Textarea } from '@chakra-ui/react';
+import React from 'react';
 
 type TextInputsProps = {
   textInputs: {
@@ -63,6 +63,6 @@ const TextInputs: React.FC<TextInputsProps> = ({
         </Button>
       </Flex>
     </Stack>
-  )
-}
-export default TextInputs
+  );
+};
+export default TextInputs;

@@ -24,7 +24,7 @@ import {
   IoArrowUpCircleOutline,
   IoArrowUpCircleSharp,
   IoBookmarkOutline,
-} from 'react-icons/io5'
+} from 'react-icons/io5';
 
 type PostItemProps = {
   post: Post
@@ -50,32 +50,32 @@ const PostItem: React.FC<PostItemProps> = ({
   onDeletePost,
   onSelectPost,
 }) => {
-  const [loadingImage, setLoadingImage] = useState(true)
-  const [loadingDelete, setLoadingDelete] = useState(false)
-  const [error, setError] = useState(false)
-  const router = useRouter()
-  const singlePostPage = !onSelectPost
+  const [loadingImage, setLoadingImage] = useState(true);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [error, setError] = useState(false);
+  const router = useRouter();
+  const singlePostPage = !onSelectPost;
 
   const handleDelete = async (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    event.stopPropagation()
-    setLoadingDelete(true)
+    event.stopPropagation();
+    setLoadingDelete(true);
     try {
-      const success = await onDeletePost(post)
+      const success = await onDeletePost(post);
       if (!success) {
-        throw new Error('Failed to delete post')
+        throw new Error('Failed to delete post');
       }
-      console.log('Post was successfully deleted')
+      console.log('Post was successfully deleted');
 
       if (singlePostPage) {
-        router.push(`/r/${post.communityId}`)
+        router.push(`/r/${post.communityId}`);
       }
     } catch (error: any) {
-      setError(error.message)
+      setError(error.message);
     }
-    setLoadingDelete(false)
-  }
+    setLoadingDelete(false);
+  };
 
   return (
     <Flex
@@ -210,7 +210,7 @@ const PostItem: React.FC<PostItemProps> = ({
               _hover={{ bg: 'gray.200' }}
               cursor='pointer'
               onClick={(event) => {
-                handleDelete(event)
+                handleDelete(event);
               }}>
               {loadingDelete ? (
                 <Spinner size='sm' />
@@ -225,6 +225,6 @@ const PostItem: React.FC<PostItemProps> = ({
         </Flex>
       </Flex>
     </Flex>
-  )
-}
-export default PostItem
+  );
+};
+export default PostItem;

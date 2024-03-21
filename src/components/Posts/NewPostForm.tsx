@@ -1,24 +1,24 @@
-import { Post } from '@/src/atoms/postsAtom'
-import { firestore, storage } from '@/src/firebase/clientApp'
-import { Alert, AlertIcon, Flex, Text, Icon } from '@chakra-ui/react'
-import { User } from 'firebase/auth'
+import { Post } from '@/src/atoms/postsAtom';
+import { firestore, storage } from '@/src/firebase/clientApp';
+import { Alert, AlertIcon, Flex, Text, Icon } from '@chakra-ui/react';
+import { User } from 'firebase/auth';
 import {
   Timestamp,
   addDoc,
   collection,
   serverTimestamp,
   updateDoc,
-} from 'firebase/firestore'
-import { getDownloadURL, ref, uploadString } from 'firebase/storage'
-import { useRouter } from 'next/router'
-import React, { useState } from 'react'
-import { BiPoll } from 'react-icons/bi'
-import { BsLink45Deg, BsMic } from 'react-icons/bs'
-import { IoDocumentText, IoImageOutline } from 'react-icons/io5'
-import FormTab from './FormTab'
-import ImageUpload from './PostForm/ImageUpload'
-import TextInputs from './PostForm/TextInputs'
-import useSelectFile from '@/src/hooks/useSelectFile'
+} from 'firebase/firestore';
+import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { BiPoll } from 'react-icons/bi';
+import { BsLink45Deg, BsMic } from 'react-icons/bs';
+import { IoDocumentText, IoImageOutline } from 'react-icons/io5';
+import FormTab from './FormTab';
+import ImageUpload from './PostForm/ImageUpload';
+import TextInputs from './PostForm/TextInputs';
+import useSelectFile from '@/src/hooks/useSelectFile';
 
 type NewPostFormProps = {
   user: User
@@ -46,7 +46,7 @@ const formTabs: TabItem[] = [
     title: 'Talk',
     icon: BsMic,
   },
-]
+];
 
 export type TabItem = {
   title: string
@@ -62,14 +62,14 @@ const NewPostForm: React.FC<NewPostFormProps> = ({
   const [textInputs, setTextInputs] = useState({
     title: '',
     body: '',
-  })
-  const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
+  });
+  const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleCreatePost = async () => {
     //create a new post
-    const { communityId } = router.query
+    const { communityId } = router.query;
     const newPost: Post = {
       communityId: communityId as string,
       communityImageURL: communityImageURL || "",
@@ -80,40 +80,40 @@ const NewPostForm: React.FC<NewPostFormProps> = ({
       numberOfComments: 0,
       voteStatus: 0,
       createdAt: serverTimestamp() as Timestamp,
-    }
+    };
 
-    setLoading(true)
+    setLoading(true);
     try {
       // store the new post in db
-      const postDocRef = await addDoc(collection(firestore, 'posts'), newPost)
+      const postDocRef = await addDoc(collection(firestore, 'posts'), newPost);
       if (selectedFile) {
-        const imageRef = ref(storage, `posts/${postDocRef.id}/image`)
-        await uploadString(imageRef, selectedFile, 'data_url')
-        const downloadURL = await getDownloadURL(imageRef)
+        const imageRef = ref(storage, `posts/${postDocRef.id}/image`);
+        await uploadString(imageRef, selectedFile, 'data_url');
+        const downloadURL = await getDownloadURL(imageRef);
         await updateDoc(postDocRef, {
           imageURL: downloadURL,
-        })
+        });
       }
-      router.back()
+      router.back();
     } catch (error) {
-      console.log('handleCreatePost error', error)
-      setError(true)
+      console.log('handleCreatePost error', error);
+      setError(true);
     }
 
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   const onTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const {
       target: { name, value },
-    } = event
+    } = event;
     setTextInputs((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   return (
     <Flex direction='column' bg='white' borderRadius={4} mt={2}>
@@ -152,6 +152,6 @@ const NewPostForm: React.FC<NewPostFormProps> = ({
         </Alert>
       )}
     </Flex>
-  )
-}
-export default NewPostForm
+  );
+};
+export default NewPostForm;

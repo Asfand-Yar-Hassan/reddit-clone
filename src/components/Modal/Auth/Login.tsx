@@ -1,36 +1,36 @@
-import { auth } from '@/src/firebase/clientApp'
-import { authModalState } from '../../../atoms/authModalAtom'
-import { Button, Flex, Input, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
-import { useRecoilState } from 'recoil'
-import { FIREBASE_ERRORS } from '@/src/firebase/errors'
+import { auth } from '@/src/firebase/clientApp';
+import { authModalState } from '../../../atoms/authModalAtom';
+import { Button, Flex, Input, Text } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useRecoilState } from 'recoil';
+import { FIREBASE_ERRORS } from '@/src/firebase/errors';
 
 type LoginProps = {}
 
 const Login: React.FC<LoginProps> = () => {
   const [authModalStateValue, setAuthModalState] =
-    useRecoilState(authModalState)
+    useRecoilState(authModalState);
 
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: '',
-  })
+  });
 
   const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth)
+    useSignInWithEmailAndPassword(auth);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    signInWithEmailAndPassword(loginForm.email, loginForm.password)
-  }
+    event.preventDefault();
+    signInWithEmailAndPassword(loginForm.email, loginForm.password);
+  };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginForm((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
-    }))
-  }
+    }));
+  };
 
   return (
     <form onSubmit={onSubmit}>
@@ -102,7 +102,7 @@ const Login: React.FC<LoginProps> = () => {
             setAuthModalState((prev) => ({
               ...prev,
               view: 'resetPassword',
-            }))
+            }));
           }}>
           Reset
         </Text>
@@ -117,12 +117,12 @@ const Login: React.FC<LoginProps> = () => {
             setAuthModalState((prev) => ({
               ...prev,
               view: 'signup',
-            }))
+            }));
           }}>
           Sign Up
         </Text>
       </Flex>
     </form>
-  )
-}
-export default Login
+  );
+};
+export default Login;

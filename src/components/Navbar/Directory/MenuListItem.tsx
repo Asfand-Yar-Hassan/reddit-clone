@@ -1,8 +1,8 @@
-import useDirectory from '@/src/hooks/useDirectory'
-import { Flex, Icon, Image, MenuItem } from '@chakra-ui/react'
-import React from 'react'
-import { IconType } from 'react-icons'
-import { FaReddit } from 'react-icons/fa'
+import useDirectory from '@/src/hooks/useDirectory';
+import { Flex, Icon, Image, MenuItem } from '@chakra-ui/react';
+import React from 'react';
+import { IconType } from 'react-icons';
+import { FaReddit } from 'react-icons/fa';
 
 type MenuListItemProps = {
   displayText: string
@@ -19,7 +19,7 @@ const MenuListItem: React.FC<MenuListItemProps> = ({
   iconColor,
   imageURL,
 }) => {
-  const { onSelectMenuItem } = useDirectory()
+  const { onSelectMenuItem } = useDirectory();
 
   return (
     <MenuItem
@@ -38,6 +38,6 @@ const MenuListItem: React.FC<MenuListItemProps> = ({
         {displayText}
       </Flex>
     </MenuItem>
-  )
-}
-export default MenuListItem
+  );
+};
+export default MenuListItem;

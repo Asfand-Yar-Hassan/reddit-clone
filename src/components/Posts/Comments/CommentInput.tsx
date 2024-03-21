@@ -1,7 +1,7 @@
-import { Flex, Textarea, Button, Text } from '@chakra-ui/react'
-import { User } from 'firebase/auth'
-import React from 'react'
-import AuthButtons from '../../Navbar/RightContent/AuthButtons'
+import { Flex, Textarea, Button, Text } from '@chakra-ui/react';
+import { User } from 'firebase/auth';
+import React from 'react';
+import AuthButtons from '../../Navbar/RightContent/AuthButtons';
 
 type CommentInputProps = {
   commentText: string
@@ -74,6 +74,6 @@ const CommentInput: React.FC<CommentInputProps> = ({
         </Flex>
       )}
     </Flex>
-  )
-}
-export default CommentInput
+  );
+};
+export default CommentInput;

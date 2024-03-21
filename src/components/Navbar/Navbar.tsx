@@ -1,16 +1,16 @@
-import { Flex, Image } from '@chakra-ui/react'
-import React from 'react'
-import SearchInput from './SearchInput'
-import RightContent from './RightContent/RightContent'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth } from '@/src/firebase/clientApp'
-import Directory from './Directory/Directory'
-import useDirectory from '@/src/hooks/useDirectory'
-import { defaultMenuItem } from '@/src/atoms/directoryMenuAtom'
+import { Flex, Image } from '@chakra-ui/react';
+import React from 'react';
+import SearchInput from './SearchInput';
+import RightContent from './RightContent/RightContent';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/src/firebase/clientApp';
+import Directory from './Directory/Directory';
+import useDirectory from '@/src/hooks/useDirectory';
+import { defaultMenuItem } from '@/src/atoms/directoryMenuAtom';
 
 const Navbar: React.FC = () => {
-  const [user, loading, error] = useAuthState(auth)
-  const { onSelectMenuItem } = useDirectory()
+  const [user, loading, error] = useAuthState(auth);
+  const { onSelectMenuItem } = useDirectory();
 
   return (
     <Flex
@@ -40,6 +40,6 @@ const Navbar: React.FC = () => {
       <SearchInput user={user} />
       <RightContent user={user} />
     </Flex>
-  )
-}
-export default Navbar
+  );
+};
+export default Navbar;
