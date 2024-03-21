@@ -1,4 +1,4 @@
-import { Post } from '@/src/atoms/postsAtom'
+import { Post } from '@/src/atoms/postsAtom';
 import {
   Alert,
   AlertIcon,
@@ -9,14 +9,14 @@ import {
   Spinner,
   Stack,
   Text,
-} from '@chakra-ui/react'
-import moment from 'moment'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import React, { useState } from 'react'
-import { AiOutlineDelete } from 'react-icons/ai'
-import { BsChat, BsDot } from 'react-icons/bs'
-import { FaReddit } from 'react-icons/fa'
+} from '@chakra-ui/react';
+import moment from 'moment';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { BsChat, BsDot } from 'react-icons/bs';
+import { FaReddit } from 'react-icons/fa';
 import {
   IoArrowDownCircleOutline,
   IoArrowDownCircleSharp,

@@ -57,8 +57,8 @@ const NewPostForm: React.FC<NewPostFormProps> = ({
   user,
   communityImageURL,
 }) => {
-  const router = useRouter()
-  const [selectedTab, setSelectedTab] = useState(formTabs[0].title)
+  const router = useRouter();
+  const [selectedTab, setSelectedTab] = useState(formTabs[0].title);
   const [textInputs, setTextInputs] = useState({
     title: '',
     body: '',
